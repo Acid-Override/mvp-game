@@ -1,3 +1,8 @@
+.funnydiv {
+  border: 1px solid black;
+  color: blue;
+}
+
 .Hangman {
   width: 400px;
   color: black;

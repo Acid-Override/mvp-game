@@ -1,4 +1,5 @@
 const Mvp = require('../models/mvp.js')
+const Word = require('../models/mvp_word.js')
 
 let readAll = () => {
   return Mvp.find({})
@@ -24,11 +25,17 @@ let deleteOne = (params) => {
   return Mvp.findByIdAndDelete(id)
 }
 
+let readOneWord = () => {
+  console.log('[Controllers/mvp.js] readOneWord]')
+  return Word.find({})
+}
+
 
 
 module.exports = {
   add,
   update,
   deleteOne,
-  readAll
+  readAll,
+  readOneWord
 }

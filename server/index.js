@@ -9,7 +9,6 @@ const db = require('../database').connection
 const app = express();
 
 //middleware
-
 app.use(express.static(path.join(__dirname, '../client/src')));
 //app.use(express.static(path.join(__dirname, '../client/dist')));
 

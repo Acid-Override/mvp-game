@@ -1,5 +1,5 @@
 //const { name-of-functions } = require('./models');
-const { add, update, deleteOne, readAll } = require('../database/Controllers/mvp.js')
+const { add, update, deleteOne, readAll, readOneWord } = require('../database/Controllers/mvp.js')
 
 module.exports = {
   createFunction: (req, res) =>  {
@@ -22,7 +22,13 @@ module.exports = {
     readAll()
     .then(data => res.send(data))
     .catch(err => res.send(err));
+  },
+  readWordFunction: (req, res) => {
+    readOneWord()
+    .then(data => res.send(data))
+    .catch(err => res.send(err))
   }
+
 
 
 }
