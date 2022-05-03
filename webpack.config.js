@@ -3,7 +3,7 @@ var SRC_DIR = path.join(__dirname, '/client/src');
 var DIST_DIR = path.join(__dirname, '/client/dist');
 
 module.exports = {
-     // "development" will be human readable 
+     // "development" will be human readable
      // "production" will be minified
      mode: "development",
      entry: `${SRC_DIR}/index.js`,
