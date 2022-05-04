@@ -12,7 +12,7 @@ import '../../dist/hangman.css';
 import Modal from './Modal.jsx';
 import ModalLoser from './ModalLoser.jsx';
 
-export default function Hangman({ word, getNewWord }) {
+export default function Hangman({ wordHistory, getNewWord, getEasyWord, setUser }) {
   const allLetters = 'abcdefghijklmnopqrstuvwxyz';
   const imageArr = [i0, i1, i2, i3, i4, i5, i6];
   // const [images, setImages] = useState(imageArr)
@@ -20,6 +20,8 @@ export default function Hangman({ word, getNewWord }) {
   const [letter, setLetter] = useState([]);
   const [guesses, setGuesses] = useState(0);
   const [remainingLetters, setRemainingLetters] = useState(1);
+  const currentWord = wordHistory[wordHistory.length-1].word;
+  console.log('currentWord', currentWord)
 
   const handleClick = () => {
     console.log('you clicked me');
@@ -29,13 +31,12 @@ export default function Hangman({ word, getNewWord }) {
     console.log('ltr', ltr.target.value);
     setLetter([...letter, ltr.target.value]);
     // eslint-disable-next-line no-unused-expressions
-    word.split('').some((x) => x === ltr.target.value)
+    currentWord.split('').some((x) => x === ltr.target.value)
       ? null
       : setGuesses((prev) => prev + 1);
   };
-  const newWordClick = () => {
-    getNewWord();
-  };
+
+
   const resetGame = () => {
     console.log('resetting game');
     setGuesses(0);
@@ -44,11 +45,10 @@ export default function Hangman({ word, getNewWord }) {
     getNewWord();
   };
   //display letters in word or __ (based on guesses)
-  const wordDisplay = word.split('').map((ltr) => {
+  const wordDisplay = currentWord.split('').map((ltr) => {
     return letter.some((x) => x === ltr) ? <>{ltr}</> : <>{'_'}</>;
   });
-
-  console.log('wordDisplay', wordDisplay);
+  const letterPoints = wordDisplay.filter(x => x.props.children !== '_').map(x => x.props.children)
 
   const letterKeys = allLetters.split('').map((ltr, index) => (
     <button
@@ -65,10 +65,7 @@ export default function Hangman({ word, getNewWord }) {
     console.log('guesses', guesses);
   }, [guesses]);
   useEffect(() => {
-    console.log('wordDisplay', wordDisplay);
-
     const wfil = wordDisplay.filter((x) => x.props.children === '_').length;
-    console.log('wfil', wfil);
     setRemainingLetters(wfil);
   }, [letter]);
 
@@ -90,9 +87,12 @@ export default function Hangman({ word, getNewWord }) {
       <br />
 
       <div className="Hangman-word">{wordDisplay}</div>
-      <button onClick={handleClick}>ChangeImage</button>
+
+      <button onClick={() => setUser('New User')}>New Player</button>
       <br />
-      <button onClick={newWordClick}>New Word</button>
+      <button onClick={getNewWord}>HARD Word</button>
+      <br />
+      <button onClick={getEasyWord}>EASY Wordle</button>
       <br />
       <button onClick={resetGame}>Reset Game</button>
       <br />
@@ -106,7 +106,12 @@ export default function Hangman({ word, getNewWord }) {
                 : 'modal-Background'
             }
           >
-            <Modal openModal={remainingLetters === 0} resetGame={resetGame} />
+            <Modal
+            openModal={remainingLetters === 0}
+            resetGame={resetGame}
+            currentWord={currentWord}
+            letterPoints={letterPoints}
+            />
           </div>,
           document.getElementById('portal')
         )}
@@ -117,7 +122,12 @@ export default function Hangman({ word, getNewWord }) {
               guesses === 5 ? 'modal-Background active' : 'modal-Background'
             }
           >
-            <ModalLoser openModal={guesses === 5} resetGame={resetGame} />
+            <ModalLoser
+            openModal={guesses === 5}
+            resetGame={resetGame}
+            currentWord={currentWord}
+            letterPoints={letterPoints}
+            />
           </div>,
           document.getElementById('portal')
         )}

@@ -26,7 +26,7 @@ module.exports = {
   readWordFunction: (req, res) => {
     readOneWord()
     .then(data => {
-      console.log(data)
+      console.log('>>>>>>', data)
       res.send(data)
     })
     .catch(err => res.send(err))
