@@ -28,6 +28,7 @@ let deleteOne = (params) => {
 let readOneWord = () => {
   console.log('[Controllers/mvp.js] readOneWord]')
   return Word.find({})
+  //return Word.aggregate([{$sample: {size:1}}])
 }
 
 

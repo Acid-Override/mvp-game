@@ -7,14 +7,14 @@
   width: 400px;
   color: black;
   text-align: center;
-  zoom: 1.3;
+  /* zoom: 1.3; */
 }
 
-.Hangman img {
+/* .Hangman img {
   border: 10px solid white;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.27),
     0 0 40px rgba(0, 0, 0, 0.06) inset;
-}
+} */
 
 .Hangman h1 {
   font-size: 4rem;
@@ -25,8 +25,15 @@
 
 .Hangman-word {
   letter-spacing: 1em;
-  margin: 0.4em -1em 0.2em 0;
-  font-size: 2rem;
+  margin: 0.4em -1em 1em -1em;
+  font-size: 5rem;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  color: #e91e63;
+  background-color: black;
+  width: min-content;
+}
+.Hangman-word-background {
+  background-color: black
 }
 
 .Hangman-btns {
@@ -39,16 +46,16 @@
 .Hangman button {
   border: none;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 3rem;
   cursor: pointer;
-  width: 30px;
+  /* width: 30px; */
   margin: 5px 2px 2px 2px;
   letter-spacing: 1px;
   outline: none;
-  background: #ffc107;
+  background: #9c27b0;
   color: #fff;
-  box-shadow: 0 6px #ff9800;
-  border-radius: 5px;
+  box-shadow: 0 6px #010101;
+  border-radius: 7px;
   padding-top: 4px;
 }
 
@@ -61,3 +68,117 @@
   color: #eeeeee;
   box-shadow: 0 6px #9e9e9e;
 }
+.gameOver {
+  color: red;
+  font-size: 6em;
+}
+.playOn {
+  font-size: 3em;
+  color:#9c27b0;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  background-color: black;
+
+}
+
+.modal-Background {
+  opacity: 0;
+  /* transition-duration: all 2s linear 3s; */
+  transition: opacity 2000ms ease-in-out;
+}
+
+
+.modal-Background.active {
+  opacity: 1;
+  transition-duration: 1s;
+  transform: scale (1.08);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0, 0, 0.35);
+  backdrop-filter: blur(4px);
+  background: #00000078;
+  position:fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 254;
+}
+
+
+.modal-Container {
+  width: 540px;
+  height: 500px;
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  background-color: #cbcbcb;
+  font-family: 'Noto Sans';
+}
+
+.modal-Title {
+  font-family: 'Noto Sans';
+  font-size: 1.8rem;
+  display: inline-block;
+  text-align: center;
+  margin-top: -20px;
+  color: black
+}
+
+.modal-Title-Close-Button {
+  display: flex;
+  justify-content: flex-end;
+}
+.close {
+
+  background: #9c27b0;
+  border: none;
+  font-size: 25px;
+  cursor: pointer;
+
+  z-index:20;
+}
+.modal-Container .modal-Body {
+  flex: auto;
+  flex-direction: column;
+  display: flex;
+  overflow-y: scroll;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.0rem;
+  text-align: center;
+  color: black
+}
+
+.modal-Container .modal-Footer {
+  flex: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal-Container .modal-Footer button {
+  transition: 0.5s all ease-out;
+  text-transform: capitalize;
+  font-variant-caps: small-caps;
+  min-width: 200px;
+  width: 150px;
+  height: 45px;
+  margin: 10px;
+  border: none;
+  background: #9c27b0;
+  border-radius: 1px;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 0 5px 1px #0007;
+  padding: 1em;
+  font-weight: 700;
+}
+
+/*
+  border: 2px solid var(--cafe-noir);
+  margin-right: 1rem;
+  background-color: var(--ebony);
+  color: #faebd7;
+  font-weight: 700; */

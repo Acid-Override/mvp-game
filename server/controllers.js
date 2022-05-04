@@ -25,7 +25,10 @@ module.exports = {
   },
   readWordFunction: (req, res) => {
     readOneWord()
-    .then(data => res.send(data))
+    .then(data => {
+      console.log(data)
+      res.send(data)
+    })
     .catch(err => res.send(err))
   }
 

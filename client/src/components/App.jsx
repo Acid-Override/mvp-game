@@ -1,15 +1,17 @@
 import React, {useState, useEffect } from 'react';
 import axios from 'axios';
-import "../../dist/hangman.css";
-import background from '../../dist/images/background.jpg'
+//import "../../dist/hangman.css";
+//import "../../dist/style.css";
+//import background from '../../dist/images/background.jpg'
 import Hangman from './Hangman.jsx'
+import API from '../config/config.js'
 
 
 
 export default function App () {
 
   const [user, setUser] = useState([])
-  const [word, setWord] = useState('apple')
+  const [word, setWord] = useState('aba')
 
 
   useEffect(() => {
@@ -23,25 +25,27 @@ export default function App () {
   },[])
 
   const getNewWord = () => {
-    console.log('setNewWord')
-    axios.get('/word')
+    console.log('setNewWord api_url', API.API_URL)
+    axios.get(API.API_URL)
     .then(data => {
-      setWord(data.data)
+      console.log('api dictionary get', data.data[0])
+      setWord(data.data[0])
     })
     .catch(err => console.log(err))
   }
 
 
+  useEffect(() => {
+    console.log("get me a new word")
+    getNewWord()
+
+  }, [])
 
 
   return (
-    <div >
-      <h1>Let's Play Hangman!</h1>
-      <Hangman word={word} getNewWord={getNewWord}/>
-      <div className="funnydiv">
-        <h3>funny Time</h3>
-      </div>
+    <div>
 
+      <Hangman word={word} getNewWord={getNewWord}/>
 
     </div>
   )
