@@ -7,9 +7,9 @@ let readAll = () => {
 
 let add = (params) => {
   console.log('add to Database:')
-  const {name, won, lost} = params
-  const mvp = new Mvp({name: name, won: won, lost:lost})
-  console.log('mvp', mvp)
+  const { firstName, lastName, password, email } = params
+  console.log('email working', email)
+  const mvp = new Mvp({firstName: firstName, lastName: lastName, password: password, email: email, score: 1})
   return mvp.save(mvp)
 };
 
@@ -34,6 +34,16 @@ let readOneWord = () => {
   //  .catch(err => console.log(err))
 }
 
+let doesUserExist = (params) => {
+  console.log(params)
+  const { firstName, lastName, password } = params;
+  return Mvp.findOne({firstName: firstName, lastName:lastName,password:password})
+}
+
+let updateScore = (id, params) => {
+  console.log('id: ', id, "params: ", params)
+  return Mvp.findByIdAndUpdate(id, {score : params.score}, {new: true})
+}
 
 
 module.exports = {
@@ -41,5 +51,7 @@ module.exports = {
   update,
   deleteOne,
   readAll,
-  readOneWord
+  readOneWord,
+  doesUserExist,
+  updateScore
 }

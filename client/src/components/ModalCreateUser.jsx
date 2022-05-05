@@ -4,7 +4,7 @@ import background from '../../dist/images/background.jpg';
 
 import { FaWindowClose } from 'react-icons/fa';
 
-export default function ModalUser({ setLogin, setAuthUser, setCreateNewPlayer, user }) {
+export default function ModalCreateUser({ setCreateNewPlayer, setNewCreds, errorMessage }) {
   const myStyle={
     backgroundImage: "url('/images/background.jpg')"
   }
@@ -13,37 +13,36 @@ export default function ModalUser({ setLogin, setAuthUser, setCreateNewPlayer, u
   const onSubmit = (e) => {
     e.preventDefault()
     console.log('e', e.target[0].value, e.target[1].value, e.target[2].value)
-    setAuthUser({firstName : e.target[0].value, lastName : e.target[1].value, password : e.target[2].value})
-    setShowButton(true)
+    setNewCreds({firstName: e.target[0].value, lastName: e.target[1].value, password: e.target[2].value, email: e.target[3].value})
 
+    setTimeout(() => {
+      setShowButton(true)
+    },"1000")
   }
 
-  useEffect(() => {
-    if(user.firstName) {
-      setLogin(false)
-    }
-
-
-  }, [user])
-
-
-
   return (
-
     <div className="modal-Container" style={myStyle}>
-      <h1>LOGIN</h1>
+      <h1>Setup Your New Account</h1>
+      {errorMessage && (
+        <div className="error-message">
+      <h2>Something Went Wrong</h2>
+      <p>Please try again.</p>
+       </div>
+      )}
+      {!errorMessage && (
       <div
         className="modal-Title-Close-Button"
         role="button"
         tabIndex={0}
-        onClick={() => setLogin(false)}
-        onKeyDown={() => setLogin(false)}
+        onClick={() => setCreateNewPlayer(false)}
+        onKeyDown={() => setCreateNewPlayer(false)}
       >
         <FaWindowClose className="close"/>
       </div>
+      )}
 
-
-      <div className="modal-Footer">
+{!errorMessage && (
+    <div className="modal-Footer">
 
       <form onSubmit={onSubmit}>
         <label className="label">
@@ -59,18 +58,20 @@ export default function ModalUser({ setLogin, setAuthUser, setCreateNewPlayer, u
           Password:
           <input name="password" type="password"/>
         </label>
+        <label className="label">
+          email Address:
+          <input name="email" type="email"/>
+        </label>
           <input type="submit" value="submit" />
       </form>
       </div>
-      {showButton && (
+    )}
+
+    {showButton && (
       <div className="modal-Footer">
-        <h1>User Not Found | Please Try Again</h1>
-        <button onClick={() => setCreateNewPlayer(true)}>New Account</button>
-
-      </div>
-      )}
-
-
+      <h1>Invalid Form | Please Try Again</h1>
+    </div>
+    )}
 
     </div>
   );

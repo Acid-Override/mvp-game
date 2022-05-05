@@ -2,6 +2,7 @@ import React, {useState, useEffect } from 'react';
 import axios from 'axios';
 import { createPortal } from 'react-dom';
 import ModalUser from './ModalUser.jsx';
+import ModalCreateUser from './ModalCreateUser.jsx'
 
 //import "../../dist/hangman.css";
 //import "../../dist/style.css";
@@ -13,28 +14,41 @@ import API from '../config/config.js'
 
 export default function App () {
 
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState('user')
   const [word, setWord] = useState('a')
   const [wordHistory, setWordHistory] = useState([{word: 'abc'}])
-  const [newPlayer, setNewPlayer] = useState([])
+  const [createNewPlayer, setCreateNewPlayer] = useState(false)
   const [authUser, setAuthUser] = useState()
+  const [login, setLogin] = useState(false)
+  const [newCreds, setNewCreds] = useState()
+  const [errorMessage, setErrorMessage] = useState(false)
 
 
 
-  useEffect(() => {
-    console.log('useEffect')
-    axios.get('/quest')
+
+
+  // const getUserData = () => {
+  //   console.log('UserDateRequest')
+  // }
+
+  const requestUserAuth = () => {
+    console.log('authUser HERE',authUser)
+    axios.post("/user", authUser)
     .then(data => {
-      console.log(data.data)
-      //setUser(...user, data.data);
+      if(data) {
+        console.log('requestUserAuth', data)
+        setUser(data.data)
+      } else {
+        console.log('No User Data, Please create account')
+      }
     })
-    .catch(err => console.log('axios err', err))
-  },[])
-
-  const getUserData = () => {
-    console.log('UserDateRequest')
+    .catch(err => console.log(err))
   }
-
+  const updateUserScore = () => {
+    axios.post(`/user/${user._id}`, user)
+    //.then(data => console.log('updateUserScore data',data))
+    .catch(err => console.log(err))
+  }
 
   const getNewWord = () => {
     axios.get(API.API_URL)
@@ -56,39 +70,90 @@ export default function App () {
     .catch(err => console.log(err))
   }
 
+  const newUserSetup = () => {
+    axios.post('/setup', newCreds)
+    .then(data => {
+      //console.log('axios new user data', data)
+      if(data.data._id){
+        //console.log(data.data._id)
+        setUser(data.data)
+      } else {
+        setCreateNewPlayer(true)
+        setErrorMessage(true)
+        setTimeout(() => {
+          setErrorMessage(false)
+        }, 3000)
+      }
+    })
+    .catch(err => console.log(err));
+  }
 
   useEffect(() => {
-    console.log("get me a new word")
+    //console.log('useEffect createNewPlayer, user', user)
+    setLogin(false)
+  }, [createNewPlayer])
+
+
+  useEffect(() => {
     getNewWord()
-  }, [])
+    //use this to get top 5 players ????
+    axios.get('/quest')
+    .then(data => {
+      console.log(data.data)
+      //setUser(...user, data.data);
+    })
+    .catch(err => console.log('axios err', err))
+  },[])
+
 
   useEffect(() => {
-    console.log('user', user)
-    getUserData()
-  }, [user])
-
-  useEffect(() => {
-    console.log(authUser)
+    console.log('authUser', authUser)
+    if(authUser) {
+      requestUserAuth()
+    }
   }, [authUser])
+
+  useEffect(() => {
+    if(newCreds) {
+      newUserSetup()
+    }
+    setCreateNewPlayer(false)
+  },[newCreds])
 
 
   console.log(wordHistory)
 
   return (
     <div>
-      { user &&
+      { login &&
       createPortal(
-        <div className={ user ? 'modal-Background active' : 'modal-Background'}>
+        <div className={ login ? 'modal-Background active' : 'modal-Background'}>
 
         <ModalUser
           setAuthUser={setAuthUser}
+          setCreateNewPlayer={setCreateNewPlayer}
+          setLogin={setLogin}
+          user={user}
 
         />
         </div>,
         document.getElementById('portal')
       )}
+       { createNewPlayer &&
+      createPortal(
+        <div className={ createNewPlayer ? 'modal-Background active' : 'modal-Background'}>
 
-      <Hangman wordHistory={wordHistory} getNewWord={getNewWord} getEasyWord={getEasyWord} setUser={setUser}/>
+        <ModalCreateUser
+        setCreateNewPlayer={setCreateNewPlayer}
+        setNewCreds={setNewCreds}
+        errorMessage={errorMessage}
+        />
+        </div>,
+        document.getElementById('portal')
+      )}
+
+
+      <Hangman wordHistory={wordHistory} getNewWord={getNewWord} getEasyWord={getEasyWord} setUser={setUser} user={user} updateUserScore={updateUserScore} setLogin={setLogin}/>
 
     </div>
   )
