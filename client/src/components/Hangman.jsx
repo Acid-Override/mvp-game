@@ -19,7 +19,9 @@ export default function Hangman({
   setUser,
   user,
   updateUserScore,
-  setLogin
+  setLogin,
+  topPlayers,
+  getTopScores
 }) {
   const allLetters = 'abcdefghijklmnopqrstuvwxyz';
   const imageArr = [i0, i1, i2, i3, i4, i5, i6];
@@ -32,10 +34,11 @@ export default function Hangman({
   //console.log('currentWord', currentWord);
   //console.log('user in Hangman', user)
 
-  const handleClick = () => {
-    console.log('you clicked me');
-    //setGuesses((prev) => (prev + 1))
-  };
+  // const handleClick = () => {
+  //   console.log('you clicked me');
+  //   //setGuesses((prev) => (prev + 1))
+  // };
+
   const letterClick = (ltr) => {
     console.log('ltr', ltr.target.value);
     setLetter([...letter, ltr.target.value]);
@@ -51,6 +54,7 @@ export default function Hangman({
     setGuesses(0);
     setLetter([]);
     setRemainingLetters(1);
+    getTopScores()
     level === 0 ? getEasyWord() : getNewWord ()
 
     //record score to database here when user clicks resetGame
@@ -95,6 +99,8 @@ export default function Hangman({
     setRemainingLetters(wfil);
   }, [letter]);
 
+  const TopPlayers = topPlayers.map((player, index) => (<li>{player.firstName} : {player.score}</li>))
+
   return (
     <div className="Hangman">
       {guesses === 6 ? (
@@ -106,7 +112,13 @@ export default function Hangman({
         </div>
       )}
       <div className="hanging-center">
-        <div className="hanging-center-left">
+      <div className="hanging-center-left">
+          <ul>
+            Top Players
+            {TopPlayers}
+          </ul>
+        </div>
+        <div className="hanging-center-center">
           {remainingLetters === 0 ? (
             <img src={imageArr[0]}></img>
           ) : (
@@ -116,6 +128,7 @@ export default function Hangman({
             ></img>
           )}
         </div>
+
         {user.score && (
         <div className="hanging-center-right">
           <ul>

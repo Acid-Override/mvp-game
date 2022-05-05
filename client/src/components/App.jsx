@@ -22,6 +22,7 @@ export default function App () {
   const [login, setLogin] = useState(false)
   const [newCreds, setNewCreds] = useState()
   const [errorMessage, setErrorMessage] = useState(false)
+  const [topPlayers, setTopPlayers] = useState([])
 
 
 
@@ -46,7 +47,7 @@ export default function App () {
   }
   const updateUserScore = () => {
     axios.post(`/user/${user._id}`, user)
-    //.then(data => console.log('updateUserScore data',data))
+    .then(data => getTopScores())
     .catch(err => console.log(err))
   }
 
@@ -88,26 +89,26 @@ export default function App () {
     .catch(err => console.log(err));
   }
 
+  const getTopScores = () => {
+    axios.get('/scores')
+    .then(data => {
+      setTopPlayers(data.data)
+    })
+    .catch(err => console.log(err))
+  }
+
   useEffect(() => {
-    //console.log('useEffect createNewPlayer, user', user)
     setLogin(false)
   }, [createNewPlayer])
 
 
   useEffect(() => {
     getNewWord()
-    //use this to get top 5 players ????
-    axios.get('/quest')
-    .then(data => {
-      console.log(data.data)
-      //setUser(...user, data.data);
-    })
-    .catch(err => console.log('axios err', err))
+    getTopScores()
   },[])
 
 
   useEffect(() => {
-    console.log('authUser', authUser)
     if(authUser) {
       requestUserAuth()
     }
@@ -120,8 +121,6 @@ export default function App () {
     setCreateNewPlayer(false)
   },[newCreds])
 
-
-  console.log(wordHistory)
 
   return (
     <div>
@@ -153,7 +152,7 @@ export default function App () {
       )}
 
 
-      <Hangman wordHistory={wordHistory} getNewWord={getNewWord} getEasyWord={getEasyWord} setUser={setUser} user={user} updateUserScore={updateUserScore} setLogin={setLogin}/>
+      <Hangman wordHistory={wordHistory} getNewWord={getNewWord} getEasyWord={getEasyWord} setUser={setUser} user={user} updateUserScore={updateUserScore} setLogin={setLogin} topPlayers={topPlayers} getTopScores={getTopScores}/>
 
     </div>
   )

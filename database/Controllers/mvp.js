@@ -5,10 +5,15 @@ let readAll = () => {
   return Mvp.find({})
 }
 
+let topScores = () => {
+  console.log('topScores')
+  return Mvp.find({}).sort({score: -1 }).limit(5)
+}
+
 let add = (params) => {
   console.log('add to Database:')
   const { firstName, lastName, password, email } = params
-  console.log('email working', email)
+
   const mvp = new Mvp({firstName: firstName, lastName: lastName, password: password, email: email, score: 1})
   return mvp.save(mvp)
 };
@@ -27,11 +32,7 @@ let deleteOne = (params) => {
 
 let readOneWord = () => {
   console.log('[Controllers/mvp.js] readOneWord]')
-
-
    return Word.aggregate([{$sample: {size:1}}])
-  //  .then(data => console.log("find", data))
-  //  .catch(err => console.log(err))
 }
 
 let doesUserExist = (params) => {
@@ -53,5 +54,6 @@ module.exports = {
   readAll,
   readOneWord,
   doesUserExist,
-  updateScore
+  updateScore,
+  topScores
 }

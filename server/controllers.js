@@ -1,5 +1,5 @@
 //const { name-of-functions } = require('./models');
-const { add, update, deleteOne, readAll, readOneWord, doesUserExist, updateScore } = require('../database/Controllers/mvp.js')
+const { add, update, deleteOne, readAll, readOneWord, doesUserExist, updateScore, topScores } = require('../database/Controllers/mvp.js')
 
 module.exports = {
   createFunction: (req, res) =>  {
@@ -64,6 +64,11 @@ module.exports = {
       console.log(err)
       res.send(err)
     })
+  },
+  topFiveUsersFunction: (req, res) => {
+    topScores()
+     .then(data => res.send(data))
+     .catch(err => res.send(err))
   }
 
 

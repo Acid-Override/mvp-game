@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { createFunction, updateFunction, deleteFunction, readAllFunction, readWordFunction, authenticateUser, updateUserScoreFunction, createNewUserFunction } = require('./controllers');
+const { createFunction, updateFunction, deleteFunction, readAllFunction, readWordFunction, authenticateUser, updateUserScoreFunction, createNewUserFunction, topFiveUsersFunction } = require('./controllers');
 
 /* Connect controller methods to their corresponding routes
  * Example:
@@ -8,7 +8,8 @@ const { createFunction, updateFunction, deleteFunction, readAllFunction, readWor
  router.post('/quest', createFunction)
  router.patch('/quest', updateFunction)
  router.delete('/quest', deleteFunction)
- router.get('/quest', readAllFunction)
+ //router.get('/quest', readAllFunction)
+router.get('/scores', topFiveUsersFunction)
 
  router.get('/word', readWordFunction)
  router.post('/user', authenticateUser)
