@@ -74,10 +74,15 @@
   font-size: 6em;
 }
 .playOn {
-  font-size: 3em;
+  font-size: 4em;
   color:#9c27b0;
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-family: 'Indie Flower', cursive;
+  /* font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; */
   background-color: black;
+  margin-left: 30%;
+  width: max-content;
+  justify-content: center;
+  align-items: center;
 }
 .hanging-center {
   display: grid;

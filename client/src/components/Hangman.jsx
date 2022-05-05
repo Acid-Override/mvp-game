@@ -8,6 +8,13 @@ import i3 from '../../dist/images/4.png';
 import i4 from '../../dist/images/5.png';
 import i5 from '../../dist/images/6.png';
 import i6 from '../../dist/images/won.png';
+import sevenScoop from '../../dist/images/7scoop.png'
+import sixScoop from '../../dist/images/6scoop.png'
+import fiveScoop from '../../dist/images/5scoop.png'
+import fourScoop from '../../dist/images/4scoop.png'
+import threeScoop from '../../dist/images/3scoop.png'
+import twoScoop from '../../dist/images/2scoop.png'
+import zeroScoop from '../../dist/images/ZeroScoop.png'
 import '../../dist/hangman.css';
 import Modal from './Modal.jsx';
 import ModalLoser from './ModalLoser.jsx';
@@ -24,7 +31,7 @@ export default function Hangman({
   getTopScores
 }) {
   const allLetters = 'abcdefghijklmnopqrstuvwxyz';
-  const imageArr = [i0, i1, i2, i3, i4, i5, i6];
+  const imageArr = [sevenScoop, sixScoop, fiveScoop, fourScoop, threeScoop, twoScoop, zeroScoop];
   // const [images, setImages] = useState(imageArr)
   // const [curImage, setCurImage] = useState(i0)
   const [letter, setLetter] = useState([]);
@@ -65,9 +72,6 @@ export default function Hangman({
       console.log('oldScore', user.score, 'newScore', newScore)
       user.score = newScore
       updateUserScore()
-
-
-
     }
 
 
@@ -107,8 +111,8 @@ export default function Hangman({
         <div className="gameOver">Game Over</div>
       ) : (
         <div className="playOn">
-          <p>Pick a Letter</p>
-          <p> # of guesses {guesses}</p>
+          <p>Disappearing Ice Cream</p>
+          <p>guesses {guesses}</p>
         </div>
       )}
       <div className="hanging-center">
@@ -145,11 +149,6 @@ export default function Hangman({
 
       {!user.score && (<button onClick={() => setLogin(true)}>Login</button>)}
       <br />
-      {/* <button onClick={getNewWord}>HARD Word</button>
-      <br />
-      <button onClick={getEasyWord}>EASY Wordle</button>
-      <br /> */}
-
       <br />
 
       {remainingLetters === 0 &&
